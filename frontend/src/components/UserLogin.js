@@ -24,7 +24,7 @@ export const UsersLogin = () => {
         history.push({ pathname: '/websites' });
       }
       else {
-        console.log("no token")
+        alert("Check your email or password")
         history.push({ pathname: '/' });
       }
     })
@@ -81,31 +81,6 @@ export const UsersLogin = () => {
                     </button></Link>
                 </form>
             </div>
-            {/* <div className="col-md-6">
-        <form onSubmit={handleSubmit} className="card card-body">
-          <div className="form-group">
-            <input
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              className="form-control"
-              placeholder="Email"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              className="form-control"
-              placeholder="Password"
-            />
-          </div>
-          <button className="btn btn-primary btn-block">
-            Loign
-          </button>
-        </form>
-      </div> */}
 
         </div>
     );

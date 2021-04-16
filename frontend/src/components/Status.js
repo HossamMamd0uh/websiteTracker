@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import { useHistory, Link } from "react-router-dom";
 const API = process.env.REACT_APP_API;
 
-export const Websites = () => {
+export const Status = () => {
     const [websiteName, setWebsiteName] = useState("");
     const [websiteURL, setWebsiteURL] = useState("");
 
@@ -56,14 +56,14 @@ export const Websites = () => {
         const data = await res.json();
         setWebsites(data);
     };
-    
+
 
     const checkWebsite = async (id) => {
         const res = await fetch(`${API}/websitecheck/${id}`);
         const data = await res.json();
         setId(id);
 
-        
+
     };
 
     const deleteWebsites = async (id) => {
@@ -98,32 +98,8 @@ export const Websites = () => {
 
     return (
         <div className="row">
-            <div className="col-md-12">
-                <form onSubmit={handleSubmit} className="card card-body">
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            onChange={(e) => setWebsiteName(e.target.value)}
-                            value={websiteName}
-                            className="form-control"
-                            placeholder="website name"
-                            ref={nameInput}
-                            autoFocus
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            onChange={(e) => setWebsiteURL(e.target.value)}
-                            value={websiteURL}
-                            className="form-control"
-                            placeholder="website url"
-                        />
-                    </div>
-                    <button className="btn btn-primary btn-block">
-                        {editing ? "Update" : "Create"}
-                    </button>
-                </form>
+             <div className="col-md-12">
+                <h2 style={{ textAlign: "center" }}><Link to="/register" style={{textDecoration: "underline"}}>Sign up</Link> to add your website and track it</h2>
             </div>
             <div className="col-md-12">
                 <table className="table table-striped">
@@ -133,7 +109,7 @@ export const Websites = () => {
                             <th>URL</th>
                             <th>Status</th>
                             <th>history</th>
-                            <th>Operations</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -145,7 +121,7 @@ export const Websites = () => {
                                 <td>{website.websiteHistory.map(status =>
                                     <p>{status}</p>
                                 )}</td>
-                                <td>
+                                {/* <td>
                                     <button
                                         className="btn btn-secondary btn-sm btn-block"
                                         onClick={(e) => editWebsite(website._id)}
@@ -164,7 +140,7 @@ export const Websites = () => {
                                     >
                                         Ping
                   </button>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>

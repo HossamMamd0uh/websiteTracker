@@ -93,7 +93,7 @@ export const Status = () => {
 
     useEffect(() => {
         getWebsites();
-        checkWebsite();
+
     }, []);
 
     return (

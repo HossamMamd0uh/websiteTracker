@@ -5,7 +5,7 @@ const API = process.env.REACT_APP_API;
 export const Websites = () => {
     const [websiteName, setWebsiteName] = useState("");
     const [websiteURL, setWebsiteURL] = useState("");
-
+    const [websiteHistory, setWebsiteHistory] = useState("");
 
     const [editing, setEditing] = useState(false);
     const [id, setId] = useState("");
@@ -60,9 +60,10 @@ export const Websites = () => {
 
     const checkWebsite = async (id) => {
         const res = await fetch(`${API}/websitecheck/${id}`);
-        const data = await res.json();
-        setId(id);
 
+        setId(id);
+        window.location.reload(false);
+       
         
     };
 
@@ -93,7 +94,7 @@ export const Websites = () => {
 
     useEffect(() => {
         getWebsites();
-        checkWebsite();
+        
     }, []);
 
     return (
@@ -142,9 +143,12 @@ export const Websites = () => {
                                 <td>{website.websiteName}</td>
                                 <td>{website.websiteURL}</td>
                                 <td>{website.websiteStatus}</td>
-                                <td>{website.websiteHistory.map(status =>
-                                    <p>{status}</p>
-                                )}</td>
+                                <td>{website.websiteHistoryUp.map(statusUp =>
+                                    <p>{statusUp}</p>
+                                )}
+                                    {website.websiteHistoryDown.map(statusDown =>
+                                        <p>{statusDown}</p>
+                                    )}</td>
                                 <td>
                                     <button
                                         className="btn btn-secondary btn-sm btn-block"

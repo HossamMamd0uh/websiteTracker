@@ -15,7 +15,8 @@ app.config['JWT_SECRET_KEY'] = 'secret'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
-websiteHistory = []
+websiteHistoryUp = []
+websiteHistoryDown = []
 # Settings
 CORS(app)
 
@@ -105,7 +106,8 @@ def createWebsite():
     'websiteName': request.json['websiteName'],
     'websiteURL': request.json['websiteURL'],
     'websiteStatus': '',
-    'websiteHistory': []
+    'websiteHistoryUp': [],
+    'websiteHistoryDown': []
   })
   return jsonify(str(ObjectId(id)))
 
@@ -119,7 +121,8 @@ def getWebsites():
             'websiteName': doc['websiteName'],
             'websiteURL': doc['websiteURL'],
             'websiteStatus': doc['websiteStatus'],
-            'websiteHistory': doc['websiteHistory']
+            'websiteHistoryUp': doc['websiteHistoryUp'],
+            'websiteHistoryDown': doc['websiteHistoryDown']
         })
     return jsonify(websites)
 
@@ -133,7 +136,8 @@ def getWebsite(id):
       'websiteName': website['websiteName'],
       'websiteURL': website['websiteURL'],
       'websiteStatus': website['websiteStatus'],
-      'websiteHistory': website['websiteHistory']
+      'websiteHistoryUp': website['websiteHistoryUp'],
+      'websiteHistoryDown': website['websiteHistoryDown']
   })
 
 @app.route('/websitecheck/<id>', methods=['GET'])
@@ -142,25 +146,27 @@ def checkWebsite(id):
   host = website['websiteURL']
   
   respone = os.system("ping -c 1" + host)
-  if respone == 0:
-      websiteHistory.append('is up at ' + str(datetime.utcnow()))
-      db_website.update_one({'_id': ObjectId(id)}, {"$push": {
 
-    'websiteHistory': websiteHistory
+  if respone == 0:
+      websiteHistoryUp.append('is up at ' + str(datetime.utcnow()))
+      db_website.update_one({'_id': ObjectId(id)}, {"$set": {
+
+    'websiteHistoryUp': websiteHistoryUp
   }})
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
         'websiteStatus': 'is up'
       }})
-    
+      return "done"
   else:
-      websiteHistory.append('is down at '  + str(datetime.utcnow()))
-      db_website.update_one({'_id': ObjectId(id)}, {"$push": {
-    'websiteHistory': websiteHistory
+      websiteHistoryDown.append('is down at '  + str(datetime.utcnow()))
+      db_website.update_one({'_id': ObjectId(id)}, {"$set": {
+    'websiteHistoryDown': websiteHistoryDown
   }})
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
         'websiteStatus': 'is Down'
       }})
-  
+      return "done"
+
   return jsonify({'message': 'Website Checked'})
   
 

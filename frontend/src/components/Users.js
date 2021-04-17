@@ -32,7 +32,7 @@ export const UsersRegister = () => {
     setEmail("");
     setPassword("");
     nameInput.current.focus();
-    // history.push({ pathname: '/' });
+    history.push({ pathname: '/login' });
     
   };
 
@@ -81,7 +81,9 @@ export const UsersRegister = () => {
             Signup
           </button>
           <br></br>
-          <Link to="/"><button className="btn btn-primary btn-block">
+	<br></br>
+	<br></br>
+          <Link to="/login"><button className="btn btn-primary btn-block">
             Login
           </button></Link>
         </form>

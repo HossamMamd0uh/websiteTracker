@@ -76,6 +76,8 @@ export const UsersLogin = () => {
                         Login
                     </button>
                     <br></br>
+			<br></br>
+			<br></br>
                     <Link to="/register"><button className="btn btn-primary btn-block">
                         Signup
                     </button></Link>

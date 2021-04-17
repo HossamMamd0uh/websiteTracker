@@ -3,14 +3,15 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS
 from bson import ObjectId
 import os
+import requests
 from datetime import datetime 
 from flask_bcrypt import Bcrypt 
 from flask_jwt_extended import JWTManager , create_access_token
 from flask_login import current_user
-
+import subprocess
 # Instantiation
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb://localhost/pythonreact'
+app.config['MONGO_URI'] = 'mongodb+srv://hossam:Anah0ssam@cluster0.znvcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 app.config['JWT_SECRET_KEY'] = 'secret'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
@@ -28,13 +29,13 @@ db_website = mongo.db.websites
 @app.route('/users/register', methods=['POST'])
 def createUser():
 
-  id = db.insert({
+  id = db.insert_one({
     'name': request.json['name'],
     'email': request.json['email'],
     'password': bcrypt.generate_password_hash(request.json['password']).decode('utf-8'),
     'created': datetime.utcnow()
   })
-  return jsonify(str(ObjectId(id)) + 'registered') 
+  return jsonify({'message':'registered'}) 
 
 
 @app.route('/users/login', methods=['POST'])
@@ -144,10 +145,10 @@ def getWebsite(id):
 def checkWebsite(id):
   website = db_website.find_one({'_id': ObjectId(id)})
   host = website['websiteURL']
-  
-  respone = os.system("ping -c 1" + host)
+  headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
+  res = requests.get(host, headers = headers)
 
-  if respone == 0:
+  if res.status_code == 200:
       websiteHistoryUp.append('is up at ' + str(datetime.utcnow()))
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
 
@@ -156,7 +157,7 @@ def checkWebsite(id):
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
         'websiteStatus': 'is up'
       }})
-      return "done"
+      
   else:
       websiteHistoryDown.append('is down at '  + str(datetime.utcnow()))
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
@@ -165,7 +166,7 @@ def checkWebsite(id):
       db_website.update_one({'_id': ObjectId(id)}, {"$set": {
         'websiteStatus': 'is Down'
       }})
-      return "done"
+      
 
   return jsonify({'message': 'Website Checked'})
   

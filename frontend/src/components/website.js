@@ -62,7 +62,7 @@ export const Websites = () => {
         const res = await fetch(`${API}/websitecheck/${id}`);
 
         setId(id);
-        window.location.reload(false);
+        window.location.reload(false);        
        
         
     };
@@ -107,7 +107,8 @@ export const Websites = () => {
                             onChange={(e) => setWebsiteName(e.target.value)}
                             value={websiteName}
                             className="form-control"
-                            placeholder="website name"
+			    label="website name"
+                            placeholder="Enter a name for your website to attach the link with"
                             ref={nameInput}
                             autoFocus
                         />
@@ -118,7 +119,8 @@ export const Websites = () => {
                             onChange={(e) => setWebsiteURL(e.target.value)}
                             value={websiteURL}
                             className="form-control"
-                            placeholder="website url"
+			    label="website URL"
+                            placeholder="Please enter full website URL e.g. https://www.google.com/"
                         />
                     </div>
                     <button className="btn btn-primary btn-block">

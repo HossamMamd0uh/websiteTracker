@@ -118,9 +118,12 @@ export const Status = () => {
                                 <td>{website.websiteName}</td>
                                 <td>{website.websiteURL}</td>
                                 <td>{website.websiteStatus}</td>
-                                <td>{website.websiteHistory.map(status =>
-                                    <p>{status}</p>
-                                )}</td>
+                                <td>{website.websiteHistoryUp.map(statusUp =>
+                                    <p>{statusUp}</p>
+                                )}
+                                    {website.websiteHistoryDown.map(statusDown =>
+                                        <p>{statusDown}</p>
+                                    )}</td>
                                 {/* <td>
                                     <button
                                         className="btn btn-secondary btn-sm btn-block"

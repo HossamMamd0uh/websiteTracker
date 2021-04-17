@@ -11,7 +11,7 @@ from flask_login import current_user
 import subprocess
 # Instantiation
 app = Flask(__name__)
-app.config['MONGO_URI'] = 'mongodb+srv://hossam:Anah0ssam@cluster0.znvcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb://localhost/mongodbName'
 app.config['JWT_SECRET_KEY'] = 'secret'
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)

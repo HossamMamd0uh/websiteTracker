@@ -2,7 +2,7 @@
 
 ## Backend
 Using Flask.
-You can find the guide here [link](backend/src/README.md)
+You can find the guide here [link](backend/README.md)
 
 ## Frontend
 Using React.
